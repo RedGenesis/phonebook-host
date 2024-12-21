@@ -15,8 +15,22 @@ mongoose.connect(url)
     });
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String,
+    name: {
+        type: String,
+        minLength: 3,
+        required: true
+    },
+    number: {
+        type: String,
+        minLength: 8,
+        validate: {
+            validator: (v) => {
+                return /^\d{2}-\d{6,}/.test(v) || /^\d{3}-\d{5,}$/.test(v);
+            },
+            message: 'phone number has to have 2 or 3 numbers before the dash followed by numbers after the dash'
+        },
+        required: [true, 'a phone number is required']
+    },
 });
 
 personSchema.set('toJSON', {
