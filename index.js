@@ -103,10 +103,17 @@ app.get('/api/persons', (request, response) => {
 });
 
 app.get('/api/info', (request, response) => {
-    const amount = `Phonebook has info for ${persons.length} people`;
-    const timeNow = new Date();
+    Person.estimatedDocumentCount()
+        .then(numPersons => {
+            const amount = `Phonebook has info for ${numPersons} people`;
+            const timeNow = new Date();
+            response.send(`<p>${amount}<p><p>${timeNow}</p>`);    
+        });
+    
+    // const amount = `Phonebook has info for ${persons.length} people`;
+    // const timeNow = new Date();
 
-    response.send(`<p>${amount}<p><p>${timeNow}</p>`);
+    // response.send(`<p>${amount}<p><p>${timeNow}</p>`);
 });
 
 app.get('/api/persons/:id', (request, response, next) => {
